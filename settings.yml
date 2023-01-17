@@ -1,0 +1,9 @@
+file-name: "%Y-%m-%d-%H-%M-%S"
+
+backups:
+  - 
+    directory: /var/www/html
+    zip-identifier: WEB
+  - 
+    directory: /root/data
+    zip-identifier: DATA
