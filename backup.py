@@ -61,9 +61,10 @@ async def profile(ctx):
     if ctx.author.id != int(settings['owner-id']):
         await ctx.respond(embed=discord.Embed(description='<:caution:1063940211140206653> You are not the bot owner and cannot perform this command!', color=0x78a7ff))
     else:
-        original_msg = await ctx.respond(embed=discord.Embed(description='<a:loading_gif:1064913429271429250> Processing backup, please wait!', color=0x78a7ff))
+        await ctx.defer()
         await backup()
-        await original_msg.edit(embed=discord.Embed(description=f'<:tick:1053113416966996009> Backup completed! Please see <#{settings["log-channel"]}> for the overview', color=0x78a7ff))
+        completed_embed = discord.Embed(description=f'<:tick:1053113416966996009> Backup completed! Please see <#{settings["log-channel"]}> for the overview', color=0x78a7ff)
+        await ctx.respond(embed=completed_embed)
     
 async def backup():
 
@@ -148,7 +149,7 @@ async def autobackup():
 @autobackup.before_loop
 async def wait_until_autobackup():
     now = datetime.datetime.now().astimezone()
-    next_run = now.replace(hour=3, minute=0, second=0)
+    next_run = now.replace(hour=16, minute=0, second=0)
     if next_run < now:
         next_run += datetime.timedelta(days=1)
     await discord.utils.sleep_until(next_run)
