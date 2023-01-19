@@ -5,6 +5,7 @@ import datetime
 import json
 import asyncio
 import time
+from datetime import datetime
 
 import discord
 from discord.ext import commands, tasks
@@ -143,13 +144,22 @@ async def backup():
 
 @tasks.loop(hours=24)
 async def autobackup():
-    await backup()
+
+    dt = datetime.now()
+    day_of_week = dt.weekday()
+
+    if day_of_week in settings['schedule']['days-of-week']:
+        await backup()
 
 
 @autobackup.before_loop
 async def wait_until_autobackup():
     now = datetime.datetime.now().astimezone()
-    next_run = now.replace(hour=16, minute=0, second=0)
+    next_run = now.replace(
+        hour=int(settings['schedule']['hour']),
+        minute=int(settings['schedule']['minute']),
+        second=0
+        )
     if next_run < now:
         next_run += datetime.timedelta(days=1)
     await discord.utils.sleep_until(next_run)
