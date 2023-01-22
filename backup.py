@@ -5,7 +5,6 @@ import datetime
 import json
 import asyncio
 import time
-from datetime import datetime
 
 import discord
 from discord.ext import commands, tasks
@@ -106,7 +105,7 @@ async def backup():
         except Exception as e:
             remove_zip_status = e
         
-        file_size_mb = round(file_stats.st_size / (1024 * 1024), 1)
+        file_size_mb = round(file_stats.st_size / (1024 * 1024), 2)
         
         status_message = status_message + f'__**{backupInfo["zip-identifier"]}**__ `{file_size_mb} MB`\n'
         if create_zip_status == True:
@@ -145,7 +144,7 @@ async def backup():
 @tasks.loop(hours=24)
 async def autobackup():
 
-    dt = datetime.now()
+    dt = datetime.datetime.now()
     day_of_week = dt.weekday()
 
     if day_of_week in settings['schedule']['days-of-week']:
