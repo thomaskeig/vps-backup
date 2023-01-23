@@ -10,7 +10,7 @@ schedule:
   hour: 3 # The hour to run the backup, in 24 hour time
   minute: 0 # The minute to run the backup
 
-  days_of_week: # The days of the week to run a backup | 0 = Monday, 6 = Sunday, etc
+  days-of-week: # The days of the week to run a backup | 0 = Monday, 6 = Sunday, etc
     - 0
 
 backups:
